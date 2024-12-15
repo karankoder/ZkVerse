@@ -1,0 +1,33 @@
+{
+  "issuer": "GitHub",
+  "desc": "Verify contributions or activity on GitHub without exposing private repository details.",
+  "website": "https://api.github.com",
+  "APIs": [
+    {
+      "host": "api.github.com",
+      "intercept": {
+        "url": "/users/{username}/events",
+        "method": "GET",
+        "query": [],
+        "header": []
+      },
+      "assert": [
+        {
+          "key": "type",
+          "value": "PushEvent",
+          "operation": "="
+        },
+        {
+          "key": "repo.name",
+          "value": "<SPECIFIC_REPO>",
+          "operation": "contains"
+        }
+      ],
+      "nullifier": "id"
+    }
+  ],
+  "HRCondition": ["Made a Push Event to the Specified Repository"],
+  "tips": {
+    "message": "Enter your GitHub username to retrieve and verify your activity log."
+  }
+}

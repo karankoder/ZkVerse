@@ -1,0 +1,43 @@
+{
+  "issuer": "Shopify",
+  "desc": "Verify Shopify orders to validate purchases or claims without exposing full transaction details.",
+  "website": "https://shopify.dev/api",
+  "APIs": [
+    {
+      "host": "{store_name}.myshopify.com",
+      "intercept": {
+        "url": "/admin/api/2024-01/orders.json",
+        "method": "GET",
+        "query": [
+          {
+            "status": "any",
+            "verify": true
+          }
+        ],
+        "header": [
+          {
+            "X-Shopify-Access-Token": "<ACCESS_TOKEN>",
+            "verify": true
+          }
+        ]
+      },
+      "assert": [
+        {
+          "key": "orders|0|id",
+          "value": "<ORDER_ID>",
+          "operation": "="
+        },
+        {
+          "key": "orders|0|line_items|0|title",
+          "value": "<PRODUCT_TITLE>",
+          "operation": "contains"
+        }
+      ],
+      "nullifier": "orders|0|id"
+    }
+  ],
+  "HRCondition": ["Order ID and Product Title Matched for Verification"],
+  "tips": {
+    "message": "Enter your Shopify store name and access token to retrieve and verify order details."
+  }
+}
