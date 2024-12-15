@@ -1,0 +1,39 @@
+{
+  "issuer": "PayPal",
+  "desc": "Verify transaction history from PayPal without exposing full financial data.",
+  "website": "https://www.paypal.com/myaccount/transactions/",
+  "APIs": [
+    {
+      "host": "api.paypal.com",
+      "intercept": {
+        "url": "/v1/reporting/transactions",
+        "method": "GET",
+        "query": [
+          {
+            "start_date": "2024-01-01",
+            "end_date": "2024-12-31",
+            "fields": "all",
+            "verify": true
+          }
+        ]
+      },
+      "assert": [
+        {
+          "key": "transaction_details|transactions|0|transaction_status",
+          "value": "Completed",
+          "operation": "="
+        },
+        {
+          "key": "transaction_details|transactions|0|amount|value",
+          "value": "100.00",
+          "operation": ">="
+        }
+      ],
+      "nullifier": "transaction_details|transactions|0|transaction_id"
+    }
+  ],
+  "HRCondition": ["PayPal Transaction Verified"],
+  "tips": {
+    "message": "Log in to your PayPal account and navigate to the transaction history page. zkPass will securely verify the required transaction data."
+  }
+}
