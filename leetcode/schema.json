@@ -1,0 +1,40 @@
+{
+  "issuer": "LeetCode",
+  "desc": "Verify programming achievements and competency securely using LeetCode profile data.",
+  "website": "https://leetcode.com/",
+  "APIs": [
+    {
+      "host": "leetcode.com",
+      "intercept": {
+        "url": "/api/user/profile",
+        "method": "GET",
+        "query": [
+          {
+            "q": "userName",
+            "verify": true
+          }
+        ]
+      },
+      "assert": [
+        {
+          "key": "data|user|contestRank",
+          "value": "<5000",
+          "operation": "<"
+        },
+        {
+          "key": "data|user|totalSolved",
+          "value": ">300",
+          "operation": ">"
+        }
+      ],
+      "nullifier": "data|user|userId"
+    }
+  ],
+  "HRCondition": [
+    "Top 5k in LeetCode contests",
+    "Solved more than 300 problems"
+  ],
+  "tips": {
+    "message": "Please log in to your LeetCode account and allow verification to begin."
+  }
+}

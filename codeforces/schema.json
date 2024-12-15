@@ -1,0 +1,47 @@
+{
+  "issuer": "Codeforces",
+  "desc": "Codeforces is a platform for competitive programming and contests, providing user ratings and rankings.",
+  "website": "https://codeforces.com/api/user.info",
+  "APIs": [
+    {
+      "host": "codeforces.com",
+      "intercept": {
+        "url": "/api/user.info",
+        "method": "GET",
+        "query": [
+          {
+            "key": "handles",
+            "value": "{{user_handle}}",
+            "verify": true
+          }
+        ]
+      },
+      "assert": [
+        {
+          "key": "result|0|rating",
+          "value": "1900",
+          "operation": ">="
+        },
+        {
+          "key": "result|0|rank",
+          "value": "expert",
+          "operation": "in"
+        },
+        {
+          "key": "result|0|maxRating",
+          "value": "2000",
+          "operation": ">="
+        }
+      ],
+      "nullifier": "result|0|handle"
+    }
+  ],
+  "HRCondition": [
+    "Codeforces user with rating >= 1900",
+    "Current rank in expert or higher",
+    "Achieved a max rating of 2000 or more"
+  ],
+  "tips": {
+    "message": "Log in to your Codeforces account and allow access to fetch your verified statistics."
+  }
+}
